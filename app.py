@@ -34,25 +34,9 @@ for file in paths_to_delete:
         print(f"Skip Delete {file_path}")
 
 # http server
-class MyHandler(http.server.SimpleHTTPRequestHandler):
-
-    def log_message(self, format, *args):
-        pass
-
-    def do_GET(self):
-        if self.path == '/':
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b'Hello, Python!')
-        else:
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(b'Not found')
-
-httpd = socketserver.TCPServer(('', 3000), MyHandler)
-server_thread = threading.Thread(target=httpd.serve_forever)
-server_thread.daemon = True
-server_thread.start()
+@app.route('/')
+def hello():
+    return 'Hello, Python!'
 
 # Determine system architecture
 def get_system_architecture():
@@ -127,6 +111,4 @@ def start_server():
 start_server()
 
 if __name__ == "__main__":
-    while True:
-        print('hello python')
-        time.sleep(200000)
+    app.run(host='0.0.0.0', port=8000)
